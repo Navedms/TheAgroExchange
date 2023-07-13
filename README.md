@@ -67,7 +67,7 @@ Now you can run the server with the following command:
   npm start
 ```
 
-Open a new terminal window by keyboard shortcut: ```sh command+t```
+Open a new terminal window by keyboard shortcut: ```command+t```
 
 And run the app on Android emulator:
   ```sh
