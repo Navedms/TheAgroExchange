@@ -14,7 +14,7 @@
 ## The app in pictures
 
 
-<div style="background-color: #f1f1f1;">
+<div style="background-color: #fee9e9;">
  
 <p align="center">First render:</p><br>
 <p align="center"><img width="250" src="https://github.com/Navedms/TheAgroExchange/blob/master/t1.png"></p><br>
