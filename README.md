@@ -12,9 +12,6 @@
 
 
 ## The app in pictures
-
-
-<div style="background-color: #fee9e9;">
  
 <p align="center">First render:</p><br>
 <p align="center"><img width="250" src="https://github.com/Navedms/TheAgroExchange/blob/master/t1.png"></p><br>
@@ -27,8 +24,7 @@
 
 <p align="center">The item was found!</p><br>
 <p align="center"><img width="250" src="https://github.com/Navedms/TheAgroExchange/blob/master/t4.png"></p><br><br>
-<p align="center"><img width="250" src="https://github.com/Navedms/TheAgroExchange/blob/master/t5.png"></p><br><br>
-</div>
+<p align="center"><img style="border: 1px solid black;" width="250" src="https://github.com/Navedms/TheAgroExchange/blob/master/t5.png"></p><br><br>
 
 
 
