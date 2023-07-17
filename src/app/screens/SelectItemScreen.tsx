@@ -23,7 +23,12 @@ const SelectItemScreen = () => {
   }, []);
 
   useMemo(() => {
-    if (filteredData.length === 1) {
+    if (
+      filteredData.length === 1 &&
+      filters.brands.selected &&
+      filters.qualities.selected &&
+      filters.sizes.selected
+    ) {
       Sounds.itemSelected.play();
     }
   }, [filteredData]);
@@ -37,18 +42,38 @@ const SelectItemScreen = () => {
             styles.selectedItem,
             {
               borderColor:
-                filteredData.length === 1 ? colors.primary : colors.dark,
+                filteredData.length === 1 &&
+                filters.brands.selected &&
+                filters.qualities.selected &&
+                filters.sizes.selected
+                  ? colors.primary
+                  : colors.dark,
             },
           ]}>
           <Icon
             size={50}
-            name={filteredData.length === 1 ? 'check-decagram' : 'tag-off'}
+            name={
+              filteredData.length === 1 &&
+              filters.brands.selected &&
+              filters.qualities.selected &&
+              filters.sizes.selected
+                ? 'check-decagram'
+                : 'tag-off'
+            }
             iconColor={
-              filteredData.length === 1 ? colors.secondary : colors.dark
+              filteredData.length === 1 &&
+              filters.brands.selected &&
+              filters.qualities.selected &&
+              filters.sizes.selected
+                ? colors.secondary
+                : colors.dark
             }
           />
           <Text style={styles.itemTitle}>
-            {filteredData.length === 1
+            {filteredData.length === 1 &&
+            filters.brands.selected &&
+            filters.qualities.selected &&
+            filters.sizes.selected
               ? filteredData[0].fullName
               : `Item is not selected`}
           </Text>
@@ -68,9 +93,7 @@ const SelectItemScreen = () => {
                   style={styles.btnTags}
                   title={item.name}
                   color={
-                    filters.brands.selected.includes(item.id)
-                      ? 'primary'
-                      : 'dark'
+                    filters.brands.selected === item.id ? 'primary' : 'dark'
                   }
                   disabled={filters.brands.disabled.includes(item.id)}
                 />
@@ -93,9 +116,7 @@ const SelectItemScreen = () => {
                   style={styles.btnTags}
                   title={item.name}
                   color={
-                    filters.qualities.selected.includes(item.id)
-                      ? 'primary'
-                      : 'dark'
+                    filters.qualities.selected === item.id ? 'primary' : 'dark'
                   }
                   disabled={filters.qualities.disabled.includes(item.id)}
                 />
@@ -118,9 +139,7 @@ const SelectItemScreen = () => {
                   style={styles.btnTags}
                   title={item.name}
                   color={
-                    filters.sizes.selected.includes(item.id)
-                      ? 'primary'
-                      : 'dark'
+                    filters.sizes.selected === item.id ? 'primary' : 'dark'
                   }
                   disabled={filters.sizes.disabled.includes(item.id)}
                 />

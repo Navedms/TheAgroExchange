@@ -6,7 +6,7 @@ type FilterTypes = 'brands' | 'qualities' | 'sizes';
 type Filters<K extends string> = {
   [key in K]: {
     list: number[];
-    selected: number[];
+    selected?: number;
     disabled: number[];
   };
 };
@@ -32,17 +32,17 @@ const initialState: InitialState = {
   filters: {
     brands: {
       list: [],
-      selected: [],
+      selected: undefined,
       disabled: [],
     },
     qualities: {
       list: [],
-      selected: [],
+      selected: undefined,
       disabled: [],
     },
     sizes: {
       list: [],
-      selected: [],
+      selected: undefined,
       disabled: [],
     },
   },
@@ -62,39 +62,31 @@ const dataSlice = createSlice({
   reducers: {
     onFilter: (state, {payload}) => {
       state.isLoading = true;
-      // 1. handle selected values
-      if (
-        state.filters[payload.type as FilterTypes].selected.includes(payload.id)
-      ) {
-        const newFilterSelected = state.filters[
-          payload.type as FilterTypes
-        ].selected.filter(item => item !== payload.id);
-        state.filters[payload.type as FilterTypes].selected = newFilterSelected;
-      } else {
-        state.filters[payload.type as FilterTypes].selected = [
-          ...state.filters[payload.type as FilterTypes].selected,
-          payload.id,
-        ];
-      }
+      // 1. handle selected value
+
+      state.filters[payload.type as FilterTypes].selected =
+        state.filters[payload.type as FilterTypes].selected === payload.id
+          ? undefined
+          : payload.id;
+
       // 2. update the filteredData list by filters.
       if (
-        (!state.filters.brands.selected.length &&
-          !state.filters.qualities.selected.length &&
-          !state.filters.sizes.selected.length) ||
+        (!state.filters.brands.selected &&
+          !state.filters.qualities.selected &&
+          !state.filters.sizes.selected) ||
         !state.data.length
       ) {
         state.filteredData = [];
       } else {
         state.filteredData = state.data.filter(
           item =>
-            (state.filters.brands.selected.includes(item.brandId) ||
-              !state.filters.brands.selected.length) &&
+            (state.filters.brands.selected === item.brandId ||
+              !state.filters.brands.selected) &&
             ((item.qualityId &&
-              state.filters.qualities.selected.includes(item.qualityId)) ||
-              !state.filters.qualities.selected.length) &&
-            ((item.sizeId &&
-              state.filters.sizes.selected.includes(item.sizeId)) ||
-              !state.filters.sizes.selected.length),
+              state.filters.qualities.selected === item.qualityId) ||
+              !state.filters.qualities.selected) &&
+            ((item.sizeId && state.filters.sizes.selected === item.sizeId) ||
+              !state.filters.sizes.selected),
         );
       }
       // 3. handle disabled values
@@ -173,19 +165,16 @@ const dataSlice = createSlice({
       state.filters[secondFilterType].disabled = disabledSecondFilterType;
 
       // 3. if only one category selected after the filter, make this category enabled again.
-      if (
-        !state.filters.qualities.selected.length &&
-        !state.filters.sizes.selected.length
-      ) {
+      if (!state.filters.qualities.selected && !state.filters.sizes.selected) {
         state.filters.brands.disabled = [];
       } else if (
-        !state.filters.brands.selected.length &&
-        !state.filters.sizes.selected.length
+        !state.filters.brands.selected &&
+        !state.filters.sizes.selected
       ) {
         state.filters.qualities.disabled = [];
       } else if (
-        !state.filters.qualities.selected.length &&
-        !state.filters.brands.selected.length
+        !state.filters.qualities.selected &&
+        !state.filters.brands.selected
       ) {
         state.filters.sizes.disabled = [];
       }
